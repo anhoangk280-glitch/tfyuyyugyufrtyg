@@ -1,242 +1,247 @@
 <!doctype html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Demo Menu - Ch? giao di?n</title>
-  <style>
-    :root{
-      --bg:#0f1724;
-      --panel:#0b1220;
-      --accent:#22d3ee;
-      --muted:#9aa6b2;
-      --glass: rgba(255,255,255,0.03);
-    }
-    body{
-      margin:0; font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto;
-      background:linear-gradient(180deg,#071023 0%, #081428 100%);
-      color:#e6eef6;
-      height:100vh;
-      display:flex; align-items:center; justify-content:center;
-    }
-
-    .menu {
-      width:360px;
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:12px;
-      padding:18px;
-      box-shadow: 0 8px 30px rgba(2,6,23,0.7);
-      border:1px solid rgba(255,255,255,0.03);
-      backdrop-filter: blur(6px);
-    }
-
-    .menu header{
-      display:flex; align-items:center; justify-content:space-between;
-      margin-bottom:12px;
-    }
-    .title{
-      display:flex; gap:10px; align-items:center;
-    }
-    .logo{
-      width:40px; height:40px; border-radius:8px;
-      background:linear-gradient(135deg,var(--accent),#8b5cf6);
-      display:flex; align-items:center; justify-content:center; font-weight:700; color:#022;
-      box-shadow:0 6px 18px rgba(34,211,238,0.08);
-    }
-    h1{ font-size:16px; margin:0; }
-    .sub{ font-size:12px; color:var(--muted); }
-
-    .controls { display:grid; gap:10px; }
-    .row{
-      display:flex; align-items:center; justify-content:space-between;
-      padding:10px; border-radius:8px; background:var(--glass);
-      transition: transform .18s ease, box-shadow .18s ease;
-    }
-    .row:hover { transform: translateY(-4px); box-shadow:0 8px 30px rgba(2,6,23,0.45); }
-    .left { display:flex; gap:10px; align-items:center; }
-    .label { font-weight:600; }
-    .desc { font-size:12px; color:var(--muted); }
-
-    /* Toggle */
-    .toggle {
-      width:52px; height:28px; padding:4px; background: rgba(255,255,255,0.06);
-      border-radius:999px; display:flex; align-items:center; cursor:pointer;
-      position:relative; transition: background .18s;
-    }
-    .knob {
-      width:20px; height:20px; background:white; border-radius:50%;
-      transform:translateX(0); transition: transform .18s cubic-bezier(.2,.9,.3,1), box-shadow .18s;
-      box-shadow:0 2px 6px rgba(2,6,23,0.35);
-    }
-    .toggle.on { background: linear-gradient(90deg,var(--accent),#7c3aed); }
-    .toggle.on .knob { transform: translateX(24px); box-shadow:0 6px 18px rgba(124,58,237,0.28); }
-
-    .status {
-      font-size:12px; color:var(--muted); margin-left:8px; min-width:56px; text-align:right;
-    }
-
-    .footer { margin-top:12px; display:flex; gap:8px; justify-content:space-between; align-items:center; }
-    .btn {
-      padding:8px 12px; border-radius:8px; background:transparent; border:1px solid rgba(255,255,255,0.04);
-      color:var(--muted); cursor:pointer; transition: all .14s;
-    }
-    .btn.primary { background:linear-gradient(90deg,var(--accent),#8b5cf6); color:#021; border:none; }
-    .kbd { font-size:11px; padding:4px 8px; border-radius:6px; background:rgba(255,255,255,0.03); color:var(--muted); }
-
-    /* small screens */
-    @media (max-width:420px){ .menu{ width:92%; } }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>AimLock Prototype â€” Demo cho phÃ¡t triá»ƒn</title>
+<style>
+  :root{
+    --bg:#0b0f14;
+    --ui:#0ea5a4;
+    --muted:#94a3b8;
+    --accent:#f97316;
+  }
+  html,body{height:100%;margin:0;background:linear-gradient(180deg,#071019 0%,var(--bg) 100%);font-family:Inter,system-ui,Segoe UI,Arial;color:#e6eef6}
+  #app{position:relative;height:100vh;overflow:hidden}
+  canvas{display:block;background:transparent}
+  .ui {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    z-index: 50;
+    background: rgba(8,12,16,0.45);
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.03);
+    box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+    min-width: 220px;
+  }
+  .ui h1{margin:0;font-size:14px;color:var(--ui)}
+  .row{display:flex;gap:8px;align-items:center;margin-top:8px}
+  button, .toggle {
+    cursor:pointer;
+    background:linear-gradient(180deg,#0f1724,#0b1220);
+    color: #e6eef6;
+    border:1px solid rgba(255,255,255,0.04);
+    padding:8px 10px;border-radius:6px;font-size:13px;
+  }
+  .toggle.active{background:linear-gradient(180deg,var(--accent),#ffb86b);color:#071018}
+  label{font-size:12px;color:var(--muted)}
+  .badge{font-size:12px;padding:4px 6px;border-radius:6px;background:rgba(255,255,255,0.03)}
+  .hint{font-size:12px;color:var(--muted);margin-top:6px}
+  .footer{position:absolute;right:12px;bottom:12px;color:var(--muted);font-size:12px}
+</style>
 </head>
 <body>
-  <div class="menu" role="region" aria-label="Demo Control Menu (UI only)">
-    <header>
-      <div class="title">
-        <div class="logo">UI</div>
-        <div>
-          <h1>Control Menu — Demo UI</h1>
-          <div class="sub">Giao di?n b?t/t?t (không tuong tác game)</div>
-        </div>
-      </div>
-      <div class="kbd">Press <strong>T</strong> to toggle menu</div>
-    </header>
+<div id="app">
+  <canvas id="c"></canvas>
 
-    <div class="controls" id="controls">
-      <!-- Each row is a demo toggle -->
-      <div class="row" data-key="1">
-        <div class="left">
-          <div>
-            <div class="label">Aimlock (Demo UI)</div>
-            <div class="desc">Ch? hi?n th? tr?ng thái — không can thi?p game.</div>
-          </div>
-        </div>
-        <div style="display:flex;align-items:center">
-          <div class="status" id="status-aimlock">OFF</div>
-          <div class="toggle" id="toggle-aimlock" aria-pressed="false" role="switch" tabindex="0">
-            <div class="knob"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row" data-key="2">
-        <div class="left">
-          <div>
-            <div class="label">Aimhead (Demo UI)</div>
-            <div class="desc">Ch? minh h?a — dùng cho HUD h?p pháp.</div>
-          </div>
-        </div>
-        <div style="display:flex;align-items:center">
-          <div class="status" id="status-aimhead">OFF</div>
-          <div class="toggle" id="toggle-aimhead" aria-pressed="false" role="switch" tabindex="0">
-            <div class="knob"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row" data-key="3">
-        <div class="left">
-          <div>
-            <div class="label">Light Aim (Nh? tâm) — Demo</div>
-            <div class="desc">Hi?u ?ng h? tr? nhìn (UI only).</div>
-          </div>
-        </div>
-        <div style="display:flex;align-items:center">
-          <div class="status" id="status-light">OFF</div>
-          <div class="toggle" id="toggle-light" aria-pressed="false" role="switch" tabindex="0">
-            <div class="knob"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row" data-key="4">
-        <div class="left">
-          <div>
-            <div class="label">Fix Lag — T?i uu (Demo)</div>
-            <div class="desc">Kích ho?t các g?i ý t?i uu hoá (không can thi?p h? th?ng).</div>
-          </div>
-        </div>
-        <div style="display:flex;align-items:center">
-          <div class="status" id="status-fix">OFF</div>
-          <div class="toggle" id="toggle-fix" aria-pressed="false" role="switch" tabindex="0">
-            <div class="knob"></div>
-          </div>
-        </div>
-      </div>
+  <div class="ui" id="ui">
+    <h1>AimLock Prototype (dev only)</h1>
+    <div class="row">
+      <button id="spawnBtn">Spawn target</button>
+      <button id="clearBtn">Clear</button>
+      <div class="badge" id="count">0 targets</div>
     </div>
 
-    <div class="footer">
-      <div style="display:flex; gap:8px;">
-        <button class="btn" id="applyBtn">Áp d?ng (demo)</button>
-        <button class="btn" id="resetBtn">Reset</button>
-      </div>
-      <div style="font-size:12px;color:var(--muted)">Tr?ng thái: <span id="globalState">No changes</span></div>
+    <div class="row" style="margin-top:10px;">
+      <button id="toggleBtn" class="toggle">AimLock: OFF (T)</button>
+      <label style="margin-left:8px">Smooth: <input id="smoothRange" type="range" min="2" max="40" value="12"></label>
     </div>
+
+    <div class="hint">Click to create a target. Move mouse to aim manually. Press <strong>T</strong> to toggle AimLock.</div>
   </div>
 
-  <script>
-    // Demo logic only: updates UI, logs state; does not interact with other processes.
-    const toggles = [
-      {id:'toggle-aimlock', status:'status-aimlock', name:'Aimlock'},
-      {id:'toggle-aimhead', status:'status-aimhead', name:'Aimhead'},
-      {id:'toggle-light', status:'status-light', name:'Light Aim'},
-      {id:'toggle-fix', status:'status-fix', name:'Fix Lag'}
-    ];
+  <div class="footer">Demo khÃ´ng dÃ¹ng cho cheat trÃªn máº¡ng â€” chá»‰ máº«u local cho dev</div>
+</div>
 
-    const state = {};
-    toggles.forEach(t => {
-      const el = document.getElementById(t.id);
-      const st = document.getElementById(t.status);
-      state[t.name] = false;
-      function setOn(on){
-        if(on){
-          el.classList.add('on');
-          el.setAttribute('aria-pressed','true');
-          st.textContent = 'ON';
-          st.style.color = 'var(--accent)';
-        } else {
-          el.classList.remove('on');
-          el.setAttribute('aria-pressed','false');
-          st.textContent = 'OFF';
-          st.style.color = '';
-        }
-        state[t.name] = !!on;
-        document.getElementById('globalState').textContent = JSON.stringify(state);
-        console.log(`[UI-DEMO] ${t.name} -> ${on ? 'ON' : 'OFF'}`);
-      }
-      // click and keyboard accessible
-      el.addEventListener('click', ()=> setOn(!state[t.name]));
-      el.addEventListener('keydown', (e)=>{
-        if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); setOn(!state[t.name]); }
-      });
-      // init
-      setOn(false);
-    });
+<script>
+// === Settings ===
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
 
-    // Apply and reset buttons (demo)
-    document.getElementById('applyBtn').addEventListener('click', ()=>{
-      alert('Áp d?ng (demo): ch? thay d?i giao di?n. Không can thi?p vào game.');
-      console.log('[UI-DEMO] Apply pressed. Current state:', state);
-    });
-    document.getElementById('resetBtn').addEventListener('click', ()=>{
-      Object.keys(state).forEach(k => { state[k] = false; });
-      toggles.forEach(t => {
-        document.getElementById(t.id).classList.remove('on');
-        document.getElementById(t.id).setAttribute('aria-pressed','false');
-        document.getElementById(t.status).textContent = 'OFF';
-        document.getElementById(t.status).style.color = '';
-      });
-      document.getElementById('globalState').textContent = 'Reset';
-      console.log('[UI-DEMO] Reset');
-    });
+let w = canvas.width = window.innerWidth;
+let h = canvas.height = window.innerHeight;
 
-    // Hotkey: T to toggle menu visibility
-    let menuVisible = true;
-    document.addEventListener('keydown', (e)=>{
-      if(e.key.toLowerCase()==='t'){
-        menuVisible = !menuVisible;
-        document.querySelector('.menu').style.display = menuVisible ? 'block' : 'none';
-        console.log('[UI-DEMO] Menu visibility', menuVisible);
-      }
-    });
-  </script>
-</body>
-</html>
+window.addEventListener('resize', () => {
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = window.innerHeight;
+});
+
+// Entities: targets with head point
+class Target {
+  constructor(x,y){
+    this.x = x; this.y = y;
+    this.vx = (Math.random()*2-1)*1.2;
+    this.vy = (Math.random()*2-1)*1.0;
+    this.size = 24 + Math.random()*16;
+    // head offset from center
+    this.headOffsetY = -this.size*0.35;
+    this.color = `hsl(${Math.floor(Math.random()*360)},70%,60%)`;
+    this.id = Math.random().toString(36).slice(2,9);
+    this.pulse = 0;
+  }
+  update(dt){
+    this.x += this.vx * dt;
+    this.y += this.vy * dt;
+    // bounce edges
+    if(this.x < this.size) { this.x = this.size; this.vx *= -1 }
+    if(this.x > w - this.size) { this.x = w - this.size; this.vx *= -1 }
+    if(this.y < this.size) { this.y = this.size; this.vy *= -1 }
+    if(this.y > h - this.size) { this.y = h - this.size; this.vy *= -1 }
+    this.pulse += dt*0.015;
+  }
+  draw(ctx){
+    // body
+    ctx.save();
+    ctx.translate(this.x,this.y);
+    // shadow
+    ctx.fillStyle = 'rgba(2,6,23,0.6)';
+    ctx.beginPath();
+    ctx.ellipse(0, this.size*0.7, this.size*0.9, this.size*0.35, 0,0,Math.PI*2);
+    ctx.fill();
+    // circle body
+    ctx.beginPath();
+    ctx.fillStyle = this.color;
+    ctx.arc(0,0,this.size*0.9,0,Math.PI*2);
+    ctx.fill();
+    // head point
+    const headY = this.headOffsetY;
+    ctx.beginPath();
+    ctx.fillStyle = '#fff';
+    ctx.arc(0, headY, Math.max(3, this.size*0.18 + Math.sin(this.pulse)*0.8), 0, Math.PI*2);
+    ctx.fill();
+    ctx.restore();
+  }
+  headPoint(){
+    return {x: this.x, y: this.y + this.headOffsetY};
+  }
+}
+
+// Scene
+const targets = [];
+let last = performance.now();
+let mouse = {x:w/2,y:h/2};
+let aim = {x: w/2, y: h/2}; // crosshair position
+let aimLock = false;
+let smooth = 12; // smoothing factor (higher = slower)
+const spawnBtn = document.getElementById('spawnBtn');
+const clearBtn = document.getElementById('clearBtn');
+const countBadge = document.getElementById('count');
+const toggleBtn = document.getElementById('toggleBtn');
+const smoothRange = document.getElementById('smoothRange');
+
+smoothRange.addEventListener('input', e=> {
+  smooth = Number(e.target.value);
+});
+spawnBtn.addEventListener('click', ()=> addRandomTarget());
+clearBtn.addEventListener('click', ()=>{ targets.length = 0; updateCount(); });
+toggleBtn.addEventListener('click', ()=> toggleAimLock());
+
+canvas.addEventListener('mousemove', (e)=>{
+  const rect = canvas.getBoundingClientRect();
+  mouse.x = e.clientX - rect.left;
+  mouse.y = e.clientY - rect.top;
+});
+
+// click to spawn
+canvas.addEventListener('click', (e)=>{
+  const rect = canvas.getBoundingClientRect();
+  addTarget(e.clientX - rect.left, e.clientY - rect.top);
+});
+
+window.addEventListener('keydown', (e)=>{
+  if(e.key.toLowerCase() === 't') toggleAimLock();
+});
+
+function toggleAimLock(){
+  aimLock = !aimLock;
+  toggleBtn.classList.toggle('active', aimLock);
+  toggleBtn.textContent = `AimLock: ${aimLock ? 'ON' : 'OFF'} (T)`;
+}
+
+// Helpers
+function addTarget(x,y){
+  targets.push(new Target(x,y));
+  updateCount();
+}
+function addRandomTarget(){
+  addTarget(60 + Math.random()*(w-120), 60 + Math.random()*(h-120));
+}
+function updateCount(){
+  countBadge.textContent = `${targets.length} target${targets.length===1?'':'s'}`;
+}
+
+// Find nearest target head to current aim/mouse
+function findNearestHead(fromX, fromY){
+  if(targets.length === 0) return null;
+  let best = null;
+  let bestDist = Infinity;
+  for(const t of targets){
+    const hp = t.headPoint();
+    const dx = hp.x - fromX;
+    const dy = hp.y - fromY;
+    const d = dx*dx + dy*dy;
+    if(d < bestDist){ bestDist = d; best = {target: t, hp, distSq: d}; }
+  }
+  return best;
+}
+
+// Main loop
+function step(now){
+  const dtMs = Math.min(40, now - last);
+  last = now;
+  const dt = dtMs * 0.06; // scale to comfortable movement
+
+  // update
+  targets.forEach(t => t.update(dt));
+
+  // decide aim target: if aimLock true, lock to nearest head from current aim or mouse
+  let targetHead = null;
+  if(aimLock){
+    // choose reference point (mouse location) to pick nearest target
+    const pick = findNearestHead(aim.x, aim.y) || findNearestHead(mouse.x, mouse.y);
+    if(pick) targetHead = pick.hp;
+  }
+
+  // update aim position: either follow mouse or smoothly lerp to targetHead
+  if(targetHead){
+    // smooth lerp: aim = lerp(aim, targetHead, alpha)
+    const alpha = 1 / Math.max(1, smooth); // smooth controls speed
+    aim.x += (targetHead.x - aim.x) * alpha;
+    aim.y += (targetHead.y - aim.y) * alpha;
+  } else {
+    // follow mouse with smoothing
+    const alpha = 1 / Math.max(1, smooth*0.6);
+    aim.x += (mouse.x - aim.x) * alpha;
+    aim.y += (mouse.y - aim.y) * alpha;
+  }
+
+  // draw
+  render();
+
+  requestAnimationFrame(step);
+}
+
+function render(){
+  ctx.clearRect(0,0,w,h);
+
+  // subtle grid/background
+  const grad = ctx.createLinearGradient(0,0,0,h);
+  grad.addColorStop(0,'rgba(255,255,255,0.02)');
+  grad.addColorStop(1,'rgba(255,255,255,0.00)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0,0,w,h);
+
+  // draw targets
+  for(const t of targets) t.draw
